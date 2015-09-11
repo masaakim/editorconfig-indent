@@ -1,6 +1,6 @@
 {
   "name": "editorconfig-indent",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "get indent_size and indent_style from .editorconfig file",
   "main": "index.js",
   "scripts": {
