@@ -40,42 +40,42 @@ module.exports = function (input) {
 
 
     var indentSize = []
-        allConf.forEach(function (conf) {
-            if (conf.match(/indent_size/)) {
-                var length = conf.length
-                var pos = 0
-                var flag = false
-                while (pos < length) {
-                    if (flag) {
-                        indentSize.push(conf[pos])
-                    }
-                    if (conf[pos] === '=') {
-                        flag = true
-                    }
-                    pos++
+    allConf.forEach(function (conf) {
+        if (conf.match(/indent_size/)) {
+            var length = conf.length
+            var pos = 0
+            var flag = false
+            while (pos < length) {
+                if (flag) {
+                    indentSize.push(conf[pos])
                 }
-                indentSize = indentSize.join('').trim()
+                if (conf[pos] === '=') {
+                    flag = true
+                }
+                pos++
             }
-        })
+        }
+    })
+   indentSize = indentSize.join('').trim() - 0
 
     var indentStyle = []
-        allConf.forEach(function (conf) {
-            if (conf.match(/indent_style/)) {
-                var length = conf.length
-                var pos = 0
-                var flag = false
-                while (pos < length) {
-                    if (flag) {
-                        indentStyle.push(conf[pos])
-                    }
-                    if (conf[pos] === '=') {
-                        flag = true
-                    }
-                    pos++
+    allConf.forEach(function (conf) {
+        if (conf.match(/indent_style/)) {
+            var length = conf.length
+            var pos = 0
+            var flag = false
+            while (pos < length) {
+                if (flag) {
+                    indentStyle.push(conf[pos])
                 }
-                indentStyle = indentStyle.join('').trim()
+                if (conf[pos] === '=') {
+                    flag = true
+                }
+                pos++
             }
-        })
+        }
+    })
+    indentStyle = indentStyle.join('').trim()
 
     if (indentSize.length === 0) {
         indentSize = null

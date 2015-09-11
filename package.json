@@ -10,7 +10,13 @@
     "type": "git",
     "url": "git://github.com/morishitter/editorconfig-indent/git"
   },
-  "keywords": ["editorconfig","indent"],
+  "keywords": [
+    "editorconfig",
+    "indent"
+  ],
   "author": "Masaaki Morishita",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "tape": "^4.2.0"
+  }
 }

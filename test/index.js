@@ -1,6 +1,11 @@
+var fs = require('fs')
 var test = require('tape')
-var editorconfig-indent = require('..')
+var editorconfigIndent = require('..')
+var editorconfig = fs.readFileSync('.editorconfig', 'utf-8')
 
-test('description', function (t) {
+test('editorconfig-indent', function (t) {
+    var expected = { indentSize: 4, indentStyle: 'space' }
+    var actual = editorconfigIndent(editorconfig)
+    t.same(expected, actual)
     t.end()
 })
