@@ -3,29 +3,29 @@ var editorconfig = fs.readFileSync('.editorconfig', 'utf-8')
 
 module.exports = function (input) {
     const NEW_LINE =  10
-        var pos = 0
-        var length = input.length
-        var tmp = []
-        var lines = []
-        var allConf = []
 
-        while (pos < length) {
-            code = input.charCodeAt(pos)
+    var pos = 0
+    var length = input.length
+    var tmp = []
+    var lines = []
+    var allConf = []
 
-                if (code === NEW_LINE) {
-                    var str = tmp.join('')
-                        if (str !== '') {
-                            lines.push(str)
-                        }
-                    tmp = []
-                }
-                else {
-                    tmp.push(input[pos])
-                }
+    while (pos < length) {
+        code = input.charCodeAt(pos)
 
-            pos++
+            if (code === NEW_LINE) {
+                var str = tmp.join('')
+                    if (str !== '') {
+                        lines.push(str)
+                    }
+                tmp = []
+            }
+            else {
+                tmp.push(input[pos])
+            }
 
-        }
+        pos++
+    }
 
     lines.forEach(function (line, i) {
         if (line.match(/^\[\*\]$/)) {
@@ -35,7 +35,6 @@ module.exports = function (input) {
                 next = lines[i++]
             }
         }
-
     })
 
 
@@ -45,6 +44,7 @@ module.exports = function (input) {
             var length = conf.length
             var pos = 0
             var flag = false
+
             while (pos < length) {
                 if (flag) {
                     indentSize.push(conf[pos])
@@ -56,7 +56,7 @@ module.exports = function (input) {
             }
         }
     })
-   indentSize = indentSize.join('').trim() - 0
+    indentSize = indentSize.join('').trim() - 0
 
     var indentStyle = []
     allConf.forEach(function (conf) {
@@ -77,16 +77,18 @@ module.exports = function (input) {
     })
     indentStyle = indentStyle.join('').trim()
 
+
     if (indentSize.length === 0) {
         indentSize = null
     }
+
     if (indentStyle.length === 0) {
         indentStyle = null
     }
+
 
     return {
         indentSize: indentSize,
         indentStyle: indentStyle
     };
-
 }
