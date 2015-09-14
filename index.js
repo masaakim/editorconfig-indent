@@ -1,5 +1,4 @@
 var fs = require('fs')
-var editorconfig = fs.readFileSync('.editorconfig', 'utf-8')
 
 module.exports = function (input) {
     const NEW_LINE =  10
