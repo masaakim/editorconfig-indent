@@ -19,6 +19,12 @@ getIndent(editorconfig)
 
 /* { indentSize: 4, indentStyle: 'space' } */
 
+
+/* specify the file extension */
+getIndent(editorconfig, 'css')
+
+/* { indentSize: 2, indentStyle: 'space' } */
+
 ```
 
 ## License
