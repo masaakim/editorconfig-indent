@@ -1,6 +1,6 @@
 var fs = require('fs')
 
-module.exports = function (input) {
+module.exports = function (input, extension) {
     const NEW_LINE =  10
 
     var pos = 0
@@ -8,6 +8,7 @@ module.exports = function (input) {
     var tmp = []
     var lines = []
     var allConf = []
+    var exConf = []
 
     while (pos < length) {
         code = input.charCodeAt(pos)
@@ -77,12 +78,79 @@ module.exports = function (input) {
     indentStyle = indentStyle.join('').trim()
 
 
+    var exIndentSize = []
+    var exIndentStyle = []
+
+    if (extension) {
+        var re = new RegExp("\\*\\." + extension)
+
+        lines.forEach(function (line, i) {
+            if (line.match(re)) {
+                var next = lines[++i]
+                while (!next.match(/^\[/)) {
+                    exConf.push(next)
+                    next = lines[++i]
+                }
+            }
+        })
+
+
+        exConf.forEach(function (conf) {
+            if (conf.match(/indent_size/)) {
+                var length = conf.length
+                var pos = 0
+                var flag = false
+
+                while (pos < length) {
+                    if (flag) {
+                        exIndentSize.push(conf[pos])
+                    }
+                    if (conf[pos] === '=') {
+                        flag = true
+                    }
+                    pos++
+                }
+            }
+        })
+        exIndentSize = exIndentSize.join('').trim() - 0
+
+        exConf.forEach(function (conf) {
+            if (conf.match(/indent_style/)) {
+                var length = conf.length
+                var pos = 0
+                var flag = false
+                while (pos < length) {
+                    if (flag) {
+                        indentStyle.push(conf[pos])
+                    }
+                    if (conf[pos] === '=') {
+                        flag = true
+                    }
+                    pos++
+                }
+            }
+        })
+        exIndentStyle = exIndentStyle.join('').trim()
+    }
+
     if (indentSize.length === 0) {
         indentSize = null
     }
 
     if (indentStyle.length === 0) {
         indentStyle = null
+    }
+
+    if (exIndentSize.length === 0) {
+        exIndentSize = null
+    } else {
+        indentSize = exIndentSize
+    }
+
+    if (exIndentStyle.length === 0) {
+        exIndentStyle = null
+    } else {
+        indentStyle = exIndentStyle
     }
 
 

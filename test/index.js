@@ -9,3 +9,10 @@ test('editorconfig-indent', function (t) {
     t.same(expected, actual)
     t.end()
 })
+
+test('editorconfig-indent', function (t) {
+    var expected = { indentSize: 2, indentStyle: 'space' }
+    var actual = editorconfigIndent(editorconfig, 'css')
+    t.same(expected, actual)
+    t.end()
+})
