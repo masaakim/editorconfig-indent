@@ -8,7 +8,6 @@ module.exports = function (input, extension) {
     var tmp = []
     var lines = []
     var allConf = []
-    var exConf = []
 
     while (pos < length) {
         code = input.charCodeAt(pos)
@@ -78,60 +77,80 @@ module.exports = function (input, extension) {
     indentStyle = indentStyle.join('').trim()
 
 
-    var exIndentSize = []
-    var exIndentStyle = []
+    var exConf = {}
+    var exIndentSize = {}
+    var exIndentStyle = {}
 
-    if (extension) {
-        var re = new RegExp("\\*\\." + extension)
+    if (Array.isArray(extension) && extension.length !== 0) {
 
-        lines.forEach(function (line, i) {
-            if (line.match(re)) {
-                var next = lines[++i]
-                while (!next.match(/^\[/)) {
-                    exConf.push(next)
-                    next = lines[++i]
+        extension.forEach(function (ex) {
+
+            exConf[ex] = []
+            var re = new RegExp("\\*\\." + ex)
+
+            lines.forEach(function (line, i) {
+                if (line.match(re)) {
+                    var next = lines[++i]
+                    while (!next.match(/^\[/)) {
+                        exConf[ex].push(next)
+                        next = lines[++i]
+                    }
                 }
-            }
-        })
+            })
 
 
-        exConf.forEach(function (conf) {
-            if (conf.match(/indent_size/)) {
-                var length = conf.length
-                var pos = 0
-                var flag = false
+            exConf[ex].forEach(function (conf) {
+                if (conf.match(/indent_size/)) {
+                    var length = conf.length
+                    var pos = 0
+                    var flag = false
 
-                while (pos < length) {
-                    if (flag) {
-                        exIndentSize.push(conf[pos])
+                    exIndentSize[ex] = []
+
+                    while (pos < length) {
+                        if (flag) {
+                            exIndentSize[ex].push(conf[pos])
+                        }
+                        if (conf[pos] === '=') {
+                            flag = true
+                        }
+                        pos++
                     }
-                    if (conf[pos] === '=') {
-                        flag = true
-                    }
-                    pos++
                 }
-            }
-        })
-        exIndentSize = exIndentSize.join('').trim() - 0
+            })
 
-        exConf.forEach(function (conf) {
-            if (conf.match(/indent_style/)) {
-                var length = conf.length
-                var pos = 0
-                var flag = false
-                while (pos < length) {
-                    if (flag) {
-                        indentStyle.push(conf[pos])
-                    }
-                    if (conf[pos] === '=') {
-                        flag = true
-                    }
-                    pos++
-                }
+            if (Array.isArray(exIndentSize[ex])) {
+                exIndentSize[ex] = exIndentSize[ex].join('').trim() - 0
             }
+
+
+            exConf[ex].forEach(function (conf) {
+                if (conf.match(/indent_style/)) {
+                    var length = conf.length
+                    var pos = 0
+                    var flag = false
+
+                    exIndentStyle[ex] = []
+
+                    while (pos < length) {
+                        if (flag) {
+                            exIndentStyle[ex].push(conf[pos])
+                        }
+                        if (conf[pos] === '=') {
+                            flag = true
+                        }
+                        pos++
+                    }
+                }
+            })
+
+            if (Array.isArray(exIndentStyle[ex])) {
+                exIndentStyle[ex] = exIndentStyle[ex].join('').trim()
+            }
+
         })
-        exIndentStyle = exIndentStyle.join('').trim()
     }
+
 
     if (indentSize.length === 0) {
         indentSize = null
@@ -141,13 +160,13 @@ module.exports = function (input, extension) {
         indentStyle = null
     }
 
-    if (exIndentSize.length === 0) {
+    if (Object.keys(exIndentSize).length === 0) {
         exIndentSize = null
     } else {
         indentSize = exIndentSize
     }
 
-    if (exIndentStyle.length === 0) {
+    if (Object.keys(exIndentStyle).length === 0) {
         exIndentStyle = null
     } else {
         indentStyle = exIndentStyle

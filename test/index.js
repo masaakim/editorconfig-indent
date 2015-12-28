@@ -11,8 +11,8 @@ test('editorconfig-indent', function (t) {
 })
 
 test('editorconfig-indent', function (t) {
-    var expected = { indentSize: 2, indentStyle: 'space' }
-    var actual = editorconfigIndent(editorconfig, 'css')
+    var expected = { indentSize: { css: 2 }, indentStyle: { scss: 'tab' } }
+    var actual = editorconfigIndent(editorconfig, ['css', 'scss'])
     t.same(expected, actual)
     t.end()
 })
