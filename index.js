@@ -76,6 +76,13 @@ module.exports = function (input, extension) {
     })
     indentStyle = indentStyle.join('').trim()
 
+    var ret = {
+        indentSize: {},
+        indentStyle: {},
+    }
+    ret.indentSize.all = indentSize
+    ret.indentStyle.all = indentStyle
+
 
     var exConf = {}
     var exIndentSize = {}
@@ -148,6 +155,9 @@ module.exports = function (input, extension) {
                 exIndentStyle[ex] = exIndentStyle[ex].join('').trim()
             }
 
+
+            ret.indentSize[ex] = exIndentSize[ex] || null
+            ret.indentStyle[ex] = exIndentStyle[ex] || null
         })
     }
 
@@ -173,8 +183,5 @@ module.exports = function (input, extension) {
     }
 
 
-    return {
-        indentSize: indentSize,
-        indentStyle: indentStyle
-    };
+    return ret
 }
