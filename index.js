@@ -9,6 +9,11 @@ module.exports = function (input, extension) {
     var lines = []
     var allConf = []
 
+    var ret = {
+        indentSize: {},
+        indentStyle: {},
+    }
+
     while (pos < length) {
         code = input.charCodeAt(pos)
 
@@ -76,19 +81,14 @@ module.exports = function (input, extension) {
     })
     indentStyle = indentStyle.join('').trim()
 
-    var ret = {
-        indentSize: {},
-        indentStyle: {},
-    }
     ret.indentSize.all = indentSize
     ret.indentStyle.all = indentStyle
 
 
-    var exConf = {}
-    var exIndentSize = {}
-    var exIndentStyle = {}
-
     if (Array.isArray(extension) && extension.length !== 0) {
+        var exConf = {}
+        var exIndentSize = {}
+        var exIndentStyle = {}
 
         extension.forEach(function (ex) {
 
@@ -160,28 +160,6 @@ module.exports = function (input, extension) {
             ret.indentStyle[ex] = exIndentStyle[ex] || null
         })
     }
-
-
-    if (indentSize.length === 0) {
-        indentSize = null
-    }
-
-    if (indentStyle.length === 0) {
-        indentStyle = null
-    }
-
-    if (Object.keys(exIndentSize).length === 0) {
-        exIndentSize = null
-    } else {
-        indentSize = exIndentSize
-    }
-
-    if (Object.keys(exIndentStyle).length === 0) {
-        exIndentStyle = null
-    } else {
-        indentStyle = exIndentStyle
-    }
-
 
     return ret
 }
