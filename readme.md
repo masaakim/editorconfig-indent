@@ -17,14 +17,35 @@ var editorconfig = fs.readFileSync('.editorconfig', 'utf-8')
 
 getIndent(editorconfig)
 
-/* { indentSize: 4, indentStyle: 'space' } */
+/*
+{
+    indentSize: {
+        all: 4
+    },
+    indentStyle: {
+        all: 'space'
+    }
+}
+*/
 
 
 /* specify the file extension */
-getIndent(editorconfig, 'css')
+getIndent(editorconfig, ['css', 'scss'])
 
-/* { indentSize: 2, indentStyle: 'space' } */
-
+/*
+{
+    indentSize: {
+        all: 4,
+        css: 2,
+        scss: null
+    },
+    indentStyle: {
+        all: 'space',
+        css: null,
+        scss: null
+    }
+}
+*/
 ```
 
 ## License
