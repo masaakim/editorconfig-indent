@@ -1,3 +1,7 @@
+## v0.3.0
+
+Return all extensions conf.
+
 ## v0.2.0
 
 Specify the file extension.
